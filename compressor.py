@@ -44,16 +44,28 @@ file = file.split()
 if action == 'l':
     for i in file:
         if len(max(dictionary.synonym(i))) > len(i):
-            f = open(file_name, 'r+')
-            new_file = re.sub(i, max(dictionary.synonym(i)), f.read())
-            f.truncate(0)
-            f.write(new_file)
+            if ".docx" in file_name:
+                f = docx2txt.process(file_name)
+                new_file = re.sub(i, min(dictionary.synonym(i)), f.read())
+                f.truncate(0)
+                f.write(new_file)
+            elif ".txt" in file_name:
+                f = open(file_name, 'r+')
+                new_file = re.sub(i, max(dictionary.synonym(i)), f.read())
+                f.truncate(0)
+                f.write(new_file)
 elif action == 's':
     for i in file:
         if len(min(dictionary.synonym(i))) < len(i):
-            f = open(file_name, 'r+')
-            new_file = re.sub(i, min(dictionary.synonym(i)), f.read())
-            f.truncate(0)
-            f.write(new_file)
+            if ".docx" in file_name:
+                f = docx2txt.process(file_name)
+                new_file = re.sub(i, min(dictionary.synonym(i)), f.read())
+                f.truncate(0)
+                f.write(new_file)
+            elif ".txt" in file_name:
+                f = open(file_name, 'r+')
+                new_file = re.sub(i, min(dictionary.synonym(i)), f.read())
+                f.truncate(0)
+                f.write(new_file)
 else:
     print('you did not choose l or s')
